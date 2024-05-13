@@ -5,7 +5,8 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name']) && isset($_SESSION['
     // Vérifier si la session est active et que le niveau est correct
     if ($_SESSION['level'] == "L3") {
         // Rediriger vers page3.php si la session est active et le niveau est valide
-        header("Location: s.html");
+//        header("Location: s.html");
+        header("Location: s.php");
         exit();
     } elseif ($_SESSION['level'] == "M2") {
         // Rediriger vers page33.php si le niveau est "M2"

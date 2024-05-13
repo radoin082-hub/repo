@@ -109,8 +109,13 @@ if (!$topics) {
             <td><?php echo $topic['speciality']; ?></td>
             <td><?php echo $topic['professeur']; ?></td>
             <td>
-            <a href="#" onclick="addToWishList(this)"><i class='bx bx-plus'></i></a></td>
-
+              <?php
+              if(! $topic['isClosed'])
+                echo '<a href="#" onclick="addToWishList(this)" class="validate-link"><i class=\'bx bx-check\'></i></a>';
+              else
+                echo '<a href="#" onclick="addToWishList(this)" class="validate-link" style="display: none;"><i class=\'bx bx-check\'></i></a>';
+//            echo '<a href="#" onclick="addToWishList(this)"><i class=\'bx bx-plus\'></i></a></td>'
+?>
             </td>
         </tr>
         <?php endforeach; ?>

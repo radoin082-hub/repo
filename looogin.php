@@ -30,7 +30,7 @@ if (isset($_POST["looogin"])) {
 }
 ?>
 <!-- HTML code remains the same -->
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

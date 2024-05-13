@@ -481,7 +481,7 @@ function validateAllRankings() {
     xhr.send(JSON.stringify(rankingsData));
 }
 // Fonction pour supprimer un classement
-function DeleteRanking(element) {
+/*function DeleteRanking(element) {
     // Demander une confirmation à l'utilisateur avant de supprimer
     var confirmation = confirm("Are you sure you want to delete this ranking?");
     
@@ -493,7 +493,7 @@ function DeleteRanking(element) {
         // Supprimer la ligne du tableau
         row.parentNode.removeChild(row);
     }
-}
+}*/
 
 // Fonction pour modifier un classement
 function editRanking(element) {
@@ -574,3 +574,124 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+
+
+
+
+
+function sortAverage(sortOrder) {
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'sortAverage.php?sortOrder=' + sortOrder, true);
+
+    xhr.onload = function() {
+        if (this.status == 200) {
+
+            var students = JSON.parse(this.responseText);
+
+
+            var tbody = document.querySelector('#ranking tbody');
+            tbody.innerHTML = '';
+
+            for (var i = 0; i < students.length; i++) {
+                var row = document.createElement('tr');
+
+                var cellId = document.createElement('td');
+                cellId.textContent = students[i].id;
+                row.appendChild(cellId);
+
+                var cellFirstName = document.createElement('td');
+                cellFirstName.textContent = students[i].first_name;
+                row.appendChild(cellFirstName);
+
+                var cellSecondName = document.createElement('td');
+                cellSecondName.textContent = students[i].second_name;
+                row.appendChild(cellSecondName);
+
+                var cellThirdName = document.createElement('td');
+                cellThirdName.textContent = students[i].third_name;
+                row.appendChild(cellThirdName);
+
+                var cellFourthName = document.createElement('td');
+                cellFourthName.textContent = students[i].fourth_name;
+                row.appendChild(cellFourthName);
+
+                var cellFullName = document.createElement('td');
+                cellFullName.textContent = students[i].full_name;
+                row.appendChild(cellFullName);
+
+                var cellAverage = document.createElement('td');
+                var averageInput = document.createElement('input');
+                averageInput.type = 'number';
+                averageInput.value = students[i].Average;
+                averageInput.min = '1';
+                averageInput.dataset.studentId = students[i].id;
+                cellAverage.appendChild(averageInput);
+                row.appendChild(cellAverage);
+
+                var cellRanking = document.createElement('td');
+                var rankingInput = document.createElement('input');
+                rankingInput.type = 'number';
+                rankingInput.value = students[i].Ranking;
+                rankingInput.min = '1';
+                rankingInput.dataset.studentId = students[i].id;
+                cellRanking.appendChild(rankingInput);
+                row.appendChild(cellRanking);
+
+                var cellOption = document.createElement('td');
+                var deleteLink = document.createElement('a');
+                deleteLink.href = "#";
+                deleteLink.className = "delete-ranking";
+                deleteLink.onclick = function() { DeleteRanking(this); };
+                var deleteIcon = document.createElement('i');
+                deleteIcon.className = 'bx bx-x';
+                deleteLink.appendChild(deleteIcon);
+                cellOption.appendChild(deleteLink);
+                row.appendChild(cellOption);
+
+                tbody.appendChild(row);
+            }
+        }
+    };
+    xhr.send();
+}
+
+function DeleteRanking(element) {
+    var studentId = element.parentElement.parentElement.querySelector('input').dataset.studentId;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'deleteStudent.php?studentId=' + studentId, true);
+    xhr.onload = function() {
+        if (this.status == 200) {
+            if (this.responseText == 'success') {
+                element.parentElement.parentElement.remove();
+            } else {
+                console.error('Error deleting student:', this.responseText);
+            }
+        }
+    };
+    xhr.send();
+}
+
+
+function closePFE() {
+    var xhr = new XMLHttpRequest();
+    var button = document.querySelector('button[onclick="closePFE()"]');
+    xhr.open("POST", "close_topic.php", true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                alert(xhr.responseText);
+                // Change the text of the button based on the response
+                if (xhr.responseText.includes("closed")) {
+                    button.textContent = "Open Topic";
+                } else {
+                    button.textContent = "Close Topic";
+                }
+            } else {
+                console.error("Error toggling topics");
+            }
+        }
+    };
+    xhr.send();
+}

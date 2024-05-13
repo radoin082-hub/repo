@@ -204,44 +204,53 @@ document.getElementById("addTopicForm").addEventListener("submit", function(even
 });
 
 function addTopic() {
-  var title = prompt("Enter the title of the topic:");
 
-  if (title !== null && title !== "") {
-      var resume = prompt("Enter the resume of the topic:");
-      
-      if (resume !== null && resume !== "") {
+    // Check if all topics are closed
+    var allTopicsClosed = topics.every(function(topic) {
+      return topic.isClosed;
+    });
+
+    if (allTopicsClosed) {
+      alert("All topics are closed. You cannot add a new subject.");
+    } else {
+      var title = prompt("Enter the title of the topic:");
+
+      if (title !== null && title !== "") {
+        var resume = prompt("Enter the resume of the topic:");
+
+        if (resume !== null && resume !== "") {
           var professeur = prompt("Enter the professeur/supervisor:");
-          
+
           if (professeur !== null && professeur !== "") {
-              var speciality = prompt("Enter the speciality:");
-              
-              if (speciality !== null && speciality !== "") { // تحقق من إدخال التخصص
-                  // Create a FormData object to send data to the server
-                  var formData = new FormData();
-                  formData.append('title', title);
-                  formData.append('resume', resume);
-                  formData.append('professeur', professeur);
-                  formData.append('speciality', speciality); // إرسال التخصص
+            var speciality = prompt("Enter the speciality:");
 
-                  // Create an AJAX request
-                  var xhr = new XMLHttpRequest();
-                  xhr.open('POST', 's.php', true);
-                  xhr.onload = function() {
-                      if (xhr.status === 200) {
-                          // The request was successful
-                          alert(xhr.responseText); // Display the server response
-                      } else {
-                          // The request failed
-                          alert('Error: ' + xhr.status);
-                      }
-                  };
-                  // Send data to the server
-                  xhr.send(formData);
+            if (speciality !== null && speciality !== "") { // تحقق من إدخال التخصص
+              // Create a FormData object to send data to the server
+              var formData = new FormData();
+              formData.append('title', title);
+              formData.append('resume', resume);
+              formData.append('professeur', professeur);
+              formData.append('speciality', speciality); // إرسال التخصص
 
-                  // Add the new topic to the table
-                  var table = document.getElementById("topicsTable").getElementsByTagName('tbody')[0];
-                  var newRow = table.insertRow();
-                  newRow.innerHTML = `
+              // Create an AJAX request
+              var xhr = new XMLHttpRequest();
+              xhr.open('POST', 's.php', true);
+              xhr.onload = function () {
+                if (xhr.status === 200) {
+                  // The request was successful
+                  alert(xhr.responseText); // Display the server response
+                } else {
+                  // The request failed
+                  alert('Error: ' + xhr.status);
+                }
+              };
+              // Send data to the server
+              xhr.send(formData);
+
+              // Add the new topic to the table
+              var table = document.getElementById("topicsTable").getElementsByTagName('tbody')[0];
+              var newRow = table.insertRow();
+              newRow.innerHTML = `
                       <td>${table.rows.length}</td>
                       <td>${title}</td>
                       <td>${professeur}</td>
@@ -252,20 +261,21 @@ function addTopic() {
                           <a href="#" onclick="editTitle(this)"><i class='bx bx-edit'></i></a>
                       </td>
                   `;
-                  
-                  alert("The topic has been successfully added!");
-              } else {
-                  alert("speciality information is required.");
-              }
+
+              alert("The topic has been successfully added!");
+            } else {
+              alert("speciality information is required.");
+            }
           } else {
-              alert("Professeur/supervisor information is required.");
+            alert("Professeur/supervisor information is required.");
           }
-      } else {
+        } else {
           alert("Resume information is required.");
+        }
+      } else {
+        alert("Title information is required.");
       }
-  } else {
-      alert("Title information is required.");
-  }
+    }
 }
 
 

@@ -243,14 +243,19 @@ try {
           <option value="M2">SI</option>
       </select>
       <div id="rankingTableSI">
-        <button onclick="launchAssignment()">
-          start assignment</button>
-      
+<!--        <button onclick="sortAverage()">
+          Sort</button>-->
+        <button onclick="sortAverage('ASC')">Sort Ascending</button>
+        <button onclick="sortAverage('DESC')">Sort Descending</button>
+
         <button onclick="validateAllRankings()">Validate Ranking</button>
       </div>
       <div id="rankingTableISI" style="display: none;">
-        <button onclick="launchAssignment()">
-          start assignment</button>
+<!--        <button onclick="sortAverage()">
+          Sort</button>-->
+
+        <button onclick="sortAverage('ASC')">Sort Ascending</button>
+        <button onclick="sortAverage('DESC')">Sort Descending</button>
         <table id="ranking" class="-table">
         <thead>
                 <tr>
@@ -274,7 +279,11 @@ try {
                     <td><?php echo $student['third_name']; ?></td>
                     <td><?php echo $student['fourth_name']; ?></td>
                       <td><?php echo $student['full_name']; ?></td>
-                      <td><?php echo $student['Average']; ?></td>
+<!--                      <td>--><?php //echo $student['Average']; ?><!--</td>-->
+
+                    <td>
+                      <input type="number" value="<?php echo $student['Average']; ?>" min="1" data-student-id="<?php echo $student['id']; ?>">
+                    </td>
                      <td>
                         <input type="number" value="<?php echo $student['Ranking']; ?>" min="1" data-student-id="<?php echo $student['id']; ?>">
                     </td>
@@ -374,3 +383,4 @@ try {
 <script src="script.js"></script>
 </body>
 </html>
+

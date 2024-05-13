@@ -1,5 +1,4 @@
 let wishList = [];
-
 function addToWishList(element) {
   const row = element.closest("tr");
   const theme = row.querySelector("td:nth-child(2)").textContent;
@@ -13,11 +12,45 @@ function addToWishList(element) {
   };
 
   wishList.push(item);
+  localStorage.setItem('wishList', JSON.stringify(wishList));
+  console.log(wishList);
   saveWishItemToDatabase(item);
 
   alert("Item added to Wish sheet");
   populateWishListTable();
 }
+
+function deleteFromWishList(element) {
+  console.log(wishList);
+
+  // Get the parent row of the button
+  var row = element.parentNode.parentNode;
+
+  // Get all rows in the table
+  var rows = document.getElementById("wishListTable").getElementsByTagName("tr");
+
+  // Find the index of the row in the table
+  var index = Array.prototype.indexOf.call(rows, row) - 1; // Subtract 1 because the first row is the header
+
+  console.log(index); // Log the index
+  var confirmation = confirm("هل أنت متأكد أنك تريد حذف هذا الموضوع؟");
+  if (confirmation) {
+    console.log("Wishlist");
+    console.log(wishList);
+    console.log("Index: " + index);
+    var deletedItem = wishList.splice(index, 1)[0];
+    localStorage.removeItem('wishList');
+    localStorage.setItem('wishList', JSON.stringify(wishList));
+    if (deletedItem) {
+      populateWishListTable();
+      deleteFromDatabase(deletedItem.theme, deletedItem.professor, deletedItem.description);
+    } else {
+      console.log(deletedItem);
+      console.error("No item found at index", index);
+    }
+  }
+}
+
 
 function saveWishItemToDatabase(item) {
   var xhr = new XMLHttpRequest();
@@ -62,7 +95,7 @@ function populateWishListTable() {
     const deleteButton = document.createElement("button");
     deleteButton.innerHTML = "&#128465;"; // رمز القمامة
     deleteButton.addEventListener("click", () => {
-      deleteFromWishList(index);
+      deleteFromWishList(deleteButton);
     });
     operationCell.appendChild(deleteButton);
     row.appendChild(operationCell);
@@ -71,14 +104,6 @@ function populateWishListTable() {
   });
 }
 
-function deleteFromWishList(index) {
-  var confirmation = confirm("هل أنت متأكد أنك تريد حذف هذا الموضوع؟");
-  if (confirmation) {
-    var deletedItem = wishList.splice(index, 1)[0];
-    populateWishListTable();
-    deleteFromDatabase(deletedItem.theme, deletedItem.professor, deletedItem.description);
-  }
-}
 
 function deleteFromDatabase(theme, professor, description) {
   var xhr = new XMLHttpRequest();
@@ -88,6 +113,7 @@ function deleteFromDatabase(theme, professor, description) {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       if (xhr.status === 200) {
         console.log("Wish item deleted from database");
+        location.reload();
       } else {
         console.error("Error deleting wish item from database");
       }
