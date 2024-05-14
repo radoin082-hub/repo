@@ -1,6 +1,6 @@
 <?php
 include('config/db.php');
-
+// samer
 $sql = "SELECT * FROM topic";
 $result = mysqli_query($conn, $sql);
 $topics = mysqli_fetch_all($result, MYSQLI_ASSOC);

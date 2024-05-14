@@ -13,6 +13,7 @@ try {
     // Configuration des options PDO pour afficher les erreurs de requête SQL
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    // samer
     // Requête SQL pour sélectionner toutes les entrées de la table "topics"
 //    $sql = "SELECT id, title, resume, speciality, state, professeur FROM topic";
     $sql = "SELECT * FROM topic";
@@ -249,6 +250,7 @@ try {
       <div id="rankingTableSI">
 <!--        <button onclick="sortAverage()">
           Sort</button>-->
+<!--        samer -->
         <button onclick="sortAverage('ASC')">Sort Ascending</button>
         <button onclick="sortAverage('DESC')">Sort Descending</button>
 
@@ -257,7 +259,7 @@ try {
       <div id="rankingTableISI" style="display: none;">
 <!--        <button onclick="sortAverage()">
           Sort</button>-->
-
+<!--samer-->
         <button onclick="sortAverage('ASC')">Sort Ascending</button>
         <button onclick="sortAverage('DESC')">Sort Descending</button>
         <table id="ranking" class="-table">
@@ -283,7 +285,7 @@ try {
                     <td><?php echo $student['third_name']; ?></td>
                     <td><?php echo $student['fourth_name']; ?></td>
                       <td><?php echo $student['full_name']; ?></td>
-
+<!--samer-->
                     <td>
                       <input type="number" value="<?php echo $student['Average']; ?>" min="1" data-student-id="<?php echo $student['id']; ?>" class="average-input">
                     </td>

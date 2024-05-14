@@ -110,6 +110,7 @@ if (!$topics) {
             <td><?php echo $topic['professeur']; ?></td>
             <td>
               <?php
+              // samer
                /* echo '<a href="#" onclick="addToWishList(this)" class="validate-link" style="display: none;"><i class=\'bx bx-check\'></i></a>';*/
               $displayed = $topic['isClosed']?'style="display: none;' : ' ' ;
               echo '<a href="#" onclick="addToWishList(this)" class="validate-link" ' . $displayed .'"><i class=\'bx bx-check\'></i></a>';
@@ -135,6 +136,7 @@ if (!$topics) {
         <tbody id="wishListTable">
             <?php foreach ($whishsheet as $w): ?>
             <tr>
+<!--              samer for testing something -->
 <!--                <td>--><?php //echo $w['id']; ?><!--</td>-->
                 <td><?php echo $w['theme']; ?></td>
                 <td><?php echo $w['description']; ?></td>
