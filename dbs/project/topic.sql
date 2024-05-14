@@ -14,7 +14,28 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- Data exporting was unselected.
+-- Dumping structure for table project.topic
+DROP TABLE IF EXISTS `topic`;
+CREATE TABLE IF NOT EXISTS `topic` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `resume` varchar(255) NOT NULL,
+  `speciality` varchar(255) NOT NULL,
+  `state` enum('invalide','validated') NOT NULL,
+  `professeur` varchar(255) NOT NULL,
+  `isClosed` tinyint(1) DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Dumping data for table project.topic: ~6 rows (approximately)
+DELETE FROM `topic`;
+INSERT INTO `topic` (`id`, `title`, `resume`, `speciality`, `state`, `professeur`, `isClosed`) VALUES
+	(14, 'theme1', 'dess', '', 'invalide', 'prof1', 0),
+	(15, 'theme2', 'dess', '', 'invalide', 'prof2', 0),
+	(16, 'theme3', 'dess', '', 'invalide', 'prof3', 0),
+	(17, 'theme4', 'dess', '', 'invalide', 'prof4', 0),
+	(18, 'theme5', 'dess', '', 'invalide', 'prof5', 0),
+	(19, 'theme6', 'dess', '', 'invalide', 'prof6', 0);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

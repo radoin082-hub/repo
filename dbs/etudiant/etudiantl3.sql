@@ -14,7 +14,22 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- Data exporting was unselected.
+-- Dumping structure for table etudiant.etudiantl3
+DROP TABLE IF EXISTS `etudiantl3`;
+CREATE TABLE IF NOT EXISTS `etudiantl3` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `full-name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `average` int(11) NOT NULL,
+  `ranking` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Dumping data for table etudiant.etudiantl3: ~2 rows (approximately)
+DELETE FROM `etudiantl3`;
+INSERT INTO `etudiantl3` (`id`, `full-name`, `email`, `average`, `ranking`) VALUES
+	(9, 'Users', 'dikra@gmail.com', 15, 2),
+	(14, 'DASH', 'seghirouhuda@gmail.com', 10, 1);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
