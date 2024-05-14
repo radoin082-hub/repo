@@ -187,7 +187,31 @@
   ;
   color: #11101d; /* تغيير لون النص عند التحويم في عناصر الشريط الجانبي */
 }
+.average-input, .ranking-input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    transition: 0.5s;
+    color: #333; /* Text color */
+}
 
+.average-input:focus, .ranking-input:focus {
+    border-color: #4CAF50; /* Border color when focused */
+    color: #333; /* Text color when focused */
+}
+
+.average-input {
+    background-color: #e6f7ff; /* Light blue background */
+}
+
+.ranking-input {
+    background-color: #fff2e6; /* Light orange background */
+}
 .sidebar li i {
   height: 50px;
   line-height: 50px;

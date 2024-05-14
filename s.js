@@ -209,7 +209,7 @@ function addTopic() {
     var allTopicsClosed = topics.every(function(topic) {
       return topic.isClosed;
     });
-
+   console.log(allTopicsClosed);
     if (allTopicsClosed) {
       alert("All topics are closed. You cannot add a new subject.");
     } else {

@@ -4,18 +4,19 @@ let searchBtn = document.querySelector(".bx-search");
 
 // Toggle sidebar function
 function toggleSidebar() {
-  sidebar.classList.toggle("open");
-  menuBtnChange();
+    sidebar.classList.toggle("open");
+    menuBtnChange();
 }
 
 // Function to change menu button icon
 function menuBtnChange() {
-  if (sidebar.classList.contains("open")) {
-    closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-  } else {
-    closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-  }
+    if (sidebar.classList.contains("open")) {
+        closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+    } else {
+        closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+    }
 }
+
 // Add event listeners for sidebar toggle buttons
 closeBtn.addEventListener("click", toggleSidebar);
 searchBtn.addEventListener("click", toggleSidebar);
@@ -27,7 +28,7 @@ document.getElementById("teachersLink").addEventListener("click", showTeacherLis
 function editTitle(element, entryType) {
     // Récupérer l'ID de l'entrée depuis l'élément parent de l'élément cliqué
     var entryId = element.parentNode.parentNode.cells[0].innerText; // Assurez-vous que la première colonne contient l'ID
-    
+
     // Afficher l'ID dans la console pour le débogage
     console.log("ID de l'entrée:", entryId);
 
@@ -97,7 +98,7 @@ function editTitle(element, entryType) {
     var saveChangesBtn = document.getElementById('saveChangesBtn');
 
     // Ajouter un écouteur d'événements pour le bouton "Close"
-    closeModalBtn.addEventListener('click', function() {
+    closeModalBtn.addEventListener('click', function () {
         // Fermer la boîte de dialogue modale
         var editModal = document.getElementById('editModal');
         editModal.classList.remove('show');
@@ -105,7 +106,7 @@ function editTitle(element, entryType) {
     });
 
     // Ajouter un écouteur d'événements pour le bouton "Save Changes"
-    saveChangesBtn.addEventListener('click', function() {
+    saveChangesBtn.addEventListener('click', function () {
         var newEntry = document.getElementById('newEntry').value;
         var newSpeciality = document.getElementById('newSpeciality').value;
         var newState = document.getElementById('newState').value;
@@ -168,7 +169,7 @@ function confirmDelete(element) {
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "delete_topics.php", true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onload = function() {
+        xhr.onload = function () {
             if (xhr.status === 200) {
                 // Remove the row from the table if deletion was successful
                 row.remove();
@@ -180,7 +181,6 @@ function confirmDelete(element) {
         xhr.send("topic_id=" + topicId);
     }
 }
-
 
 
 // Function to show search box
@@ -207,62 +207,62 @@ function searchTopics(keyword) {
         return;
     }
 // حفظ حالة العرض الأصلية لكل صف قبل البحث
-for (var i = 0; i < rows.length; i++) {
-originalDisplay[i] = rows[i].style.display;
-}
-
-var found = false;
-for (var i = 0; i < rows.length; i++) {
-var cells = rows[i].getElementsByTagName("td");
-var rowFound = false; // تعيين مؤشر للتحقق من العثور على الكلمة في الصف الحالي
-for (var j = 0; j < cells.length; j++) {
-    var cellText = cells[j].textContent || cells[j].innerText;
-    if (cellText.toUpperCase().includes(keyword.toUpperCase())) {
-        rows[i].style.display = ""; // إظهار الصف إذا تم العثور على الكلمة في أحد الخلايا
-        rowFound = true;
-        found = true;
-        break;
+    for (var i = 0; i < rows.length; i++) {
+        originalDisplay[i] = rows[i].style.display;
     }
-}
-if (!rowFound) {
-    rows[i].style.display = "none"; // إخفاء الصف إذا لم يتم العثور على
-   
-}
-}
 
-if (!found) {
-alert("No matching topics found.");
+    var found = false;
+    for (var i = 0; i < rows.length; i++) {
+        var cells = rows[i].getElementsByTagName("td");
+        var rowFound = false; // تعيين مؤشر للتحقق من العثور على الكلمة في الصف الحالي
+        for (var j = 0; j < cells.length; j++) {
+            var cellText = cells[j].textContent || cells[j].innerText;
+            if (cellText.toUpperCase().includes(keyword.toUpperCase())) {
+                rows[i].style.display = ""; // إظهار الصف إذا تم العثور على الكلمة في أحد الخلايا
+                rowFound = true;
+                found = true;
+                break;
+            }
+        }
+        if (!rowFound) {
+            rows[i].style.display = "none"; // إخفاء الصف إذا لم يتم العثور على
+
+        }
+    }
+
+    if (!found) {
+        alert("No matching topics found.");
 // إذا لم يتم العثور على أي نتائج، استعادة حالة العرض الأصلية للصفوف
-for (var i = 0; i < rows.length; i++) {
-    rows[i].style.display = originalDisplay[i];
-}
-}
+        for (var i = 0; i < rows.length; i++) {
+            rows[i].style.display = originalDisplay[i];
+        }
+    }
 }
 
 // تحديد الحقل النصي للبحث
 var searchInput = document.querySelector(".nav-list input[type='text']");
 
 // إضافة حدث "keydown" إلى الحقل النصي
-searchInput.addEventListener("keydown", function(event) {
+searchInput.addEventListener("keydown", function (event) {
 // التحقق مما إذا كان المفتاح المضغوط هو "Enter"
-if (event.key === "Enter") {
+    if (event.key === "Enter") {
 // استدعاء الدالة searchTopics بقيمة الكلمة المدخلة
-searchTopics(searchInput.value);
-}
+        searchTopics(searchInput.value);
+    }
 });
 // Event listener for "Add Topic" icon click
 document.querySelector(".bx-plus").addEventListener("click", () => {
-  document.getElementById("addTopicModal").style.display = "block";
+    document.getElementById("addTopicModal").style.display = "block";
 });
 
 // Event listener for submitting the add topic form
-document.getElementById("addTopicForm").addEventListener("submit", function(event) {
-  event.preventDefault();
-  // Your implementation here
+document.getElementById("addTopicForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+    // Your implementation here
 });
 
 // Ajouter un événement pour le lien de "Ranking" pour afficher la section de classement
-document.getElementById("rankingLink").addEventListener("click", function(event) {
+document.getElementById("rankingLink").addEventListener("click", function (event) {
     event.preventDefault(); // Empêcher le comportement par défaut du lien
     showRankingList(); // Appeler la fonction pour afficher la section de classement
 });
@@ -293,10 +293,13 @@ function showRankingList() {
     document.querySelector(".home-section#ranking").style.display = "block";
 }
 
+
 // Add event listeners for sidebar links to show respective sections
+
 document.getElementById("pfeLink").addEventListener("click", showPFEList);
 document.getElementById("teachersLink").addEventListener("click", showTeacherList);
 document.getElementById("rankingLink").addEventListener("click", showRankingList);
+
 // Function to show student section and hide other sections
 
 function showStudentList() {
@@ -319,9 +322,6 @@ function deleteStudent(element) {
         console.log("Student deleted");
     }
 }
-
-
-
 
 
 function editStudent(element) {
@@ -377,7 +377,7 @@ function editStudent(element) {
     var closeModalBtn = document.getElementById('closeModalBtn');
 
     // Ajouter un écouteur d'événements pour le bouton "Close"
-    closeModalBtn.addEventListener('click', function() {
+    closeModalBtn.addEventListener('click', function () {
         // Fermer la boîte de dialogue modale d'édition des étudiants
         var editStudentModal = document.getElementById('editStudentModal');
         editStudentModal.classList.remove('show');
@@ -385,24 +385,24 @@ function editStudent(element) {
     });
 
     // Ajouter un écouteur d'événements pour le bouton "Save Changes"
-saveChangesBtn.addEventListener('click', function() {
-    // Récupérer les nouvelles valeurs des champs
-    var newId = document.getElementById('newId').value;
-    var newName = document.getElementById('newName').value;
-    var newEmail = document.getElementById('newEmail').value;
-    var newRanking = document.getElementById('newRanking').value;
+    saveChangesBtn.addEventListener('click', function () {
+        // Récupérer les nouvelles valeurs des champs
+        var newId = document.getElementById('newId').value;
+        var newName = document.getElementById('newName').value;
+        var newEmail = document.getElementById('newEmail').value;
+        var newRanking = document.getElementById('newRanking').value;
 
-    // Mettre à jour les valeurs dans la ligne de l'étudiant
-    row.querySelector('td:nth-child(1)').textContent = newId;
-    row.querySelector('td:nth-child(2)').textContent = newName;
-    row.querySelector('td:nth-child(3)').textContent = newEmail;
-    row.querySelector('td:nth-child(4)').textContent = newRanking;
+        // Mettre à jour les valeurs dans la ligne de l'étudiant
+        row.querySelector('td:nth-child(1)').textContent = newId;
+        row.querySelector('td:nth-child(2)').textContent = newName;
+        row.querySelector('td:nth-child(3)').textContent = newEmail;
+        row.querySelector('td:nth-child(4)').textContent = newRanking;
 
-    // Fermer la boîte de dialogue modale
-    var editStudentModal = document.getElementById('editStudentModal');
-    editStudentModal.classList.remove('show');
-    editStudentModal.style.display = 'none';
-});
+        // Fermer la boîte de dialogue modale
+        var editStudentModal = document.getElementById('editStudentModal');
+        editStudentModal.classList.remove('show');
+        editStudentModal.style.display = 'none';
+    });
 
 
     // Afficher la boîte de dialogue modale d'édition des étudiants
@@ -420,7 +420,7 @@ function validateOption(button) {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'update_state.php', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function() {
+    xhr.onload = function () {
         if (xhr.status === 200) {
             // Mettre à jour l'interface utilisateur si nécessaire
             console.log(xhr.responseText);
@@ -438,22 +438,22 @@ function validateOption(button) {
 }
 
 
-
 function validateAllRankings() {
     var rankingInputs = document.querySelectorAll('#ranking tbody input[type="number"]');
-    
+
     // Placeholder array to store rankings data
     var rankingsData = [];
 
     // Parcourir tous les inputs de classement
-    rankingInputs.forEach(function(input) {
+    rankingInputs.forEach(function (input) {
         var studentId = input.closest('tr').querySelector('td:first-child').innerText;
         var newRanking = input.value;
         // Ajouter les données du classement à l'array rankingsData
-        rankingsData.push({ "student_id": studentId, "new_ranking": newRanking });
-        
+        rankingsData.push({"student_id": studentId, "new_ranking": newRanking});
+
         // Mettre à jour la cellule de classement dans la table HTML
-        var rankingCell = input.closest('tr').querySelector('td:nth-child(5)');
+        var rankingCell = input.closest('tr').querySelector(
+            'td:nth-child(5)');
         rankingCell.innerText = newRanking; // Mettre à jour le texte avec le nouveau classement
     });
 
@@ -464,15 +464,15 @@ function validateAllRankings() {
     document.body.appendChild(modal);
 
     // Supprimer la boîte de dialogue modale après quelques secondes
-    setTimeout(function() {
+    setTimeout(function () {
         document.body.removeChild(modal);
     }, 3000); // Supprime la boîte de dialogue après 3 secondes
-    
+
     // Envoyer les données à la page PHP via une requête POST AJAX
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "update_ranking.php", true);
     xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function() {
+    xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             // Afficher la réponse de la page PHP dans la console
             console.log(xhr.responseText);
@@ -480,16 +480,17 @@ function validateAllRankings() {
     };
     xhr.send(JSON.stringify(rankingsData));
 }
+
 // Fonction pour supprimer un classement
 /*function DeleteRanking(element) {
     // Demander une confirmation à l'utilisateur avant de supprimer
     var confirmation = confirm("Are you sure you want to delete this ranking?");
-    
+
     // Si l'utilisateur confirme la suppression
     if (confirmation) {
         // Récupérer la ligne parente de l'élément actuel (la ligne du tableau)
         var row = element.parentNode.parentNode;
-        
+
         // Supprimer la ligne du tableau
         row.parentNode.removeChild(row);
     }
@@ -499,19 +500,20 @@ function validateAllRankings() {
 function editRanking(element) {
     // Récupérer la cellule contenant le classement actuel
     var rankingCell = element.parentNode.previousElementSibling;
-    
+
     // Récupérer le classement actuel
     var currentRanking = rankingCell.textContent.trim();
-    
+
     // Demander à l'utilisateur de saisir le nouveau classement
     var newRanking = prompt("Enter the new ranking:", currentRanking);
-    
+
     // Si l'utilisateur entre un nouveau classement et clique sur "OK"
     if (newRanking !== null) {
         // Mettre à jour le texte de la cellule avec le nouveau classement
         rankingCell.textContent = newRanking;
     }
 }
+
 /*function showAdminInfo() {
     // Récupérer les informations de l'administrateur (nom, prénom, email) depuis votre source de données
     var adminName = "John Doe";
@@ -547,16 +549,18 @@ function toggleRankingTable() {
         rankingTableISI.style.display = 'block';
     }
 }
+
 // Fonction pour marquer les états comme invalides par défaut
 function markStatesAsInvalid() {
     var stateCells = document.querySelectorAll('#topics tbody td:nth-child(5)');
-    stateCells.forEach(function(cell) {
+    stateCells.forEach(function (cell) {
         cell.textContent = 'Invalid';
         cell.style.color = 'blue'; // Stylez la couleur en bleu
         cell.style.fontStyle = 'italic'; // Stylez le texte en italique
     });
 }
-document.addEventListener("DOMContentLoaded", function() {
+
+document.addEventListener("DOMContentLoaded", function () {
     // Récupérer les paramètres de l'URL
     const urlParams = new URLSearchParams(window.location.search);
     const addTopicEnabled = urlParams.get('addTopicEnabled');
@@ -565,7 +569,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const closeButton = document.getElementById("closeButton");
 
     // Ajouter un écouteur d'événements au bouton "Close Topic"
-    closeButton.addEventListener("click", function() {
+    closeButton.addEventListener("click", function () {
         // Bloquer la fonction addTopic si addTopicEnabled est false
         if (addTopicEnabled === 'false') {
             // Désactiver la fonction addTopic
@@ -576,15 +580,12 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-
-
-
 function sortAverage(sortOrder) {
 
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'sortAverage.php?sortOrder=' + sortOrder, true);
 
-    xhr.onload = function() {
+    xhr.onload = function () {
         if (this.status == 200) {
 
             var students = JSON.parse(this.responseText);
@@ -642,7 +643,9 @@ function sortAverage(sortOrder) {
                 var deleteLink = document.createElement('a');
                 deleteLink.href = "#";
                 deleteLink.className = "delete-ranking";
-                deleteLink.onclick = function() { DeleteRanking(this); };
+                deleteLink.onclick = function () {
+                    DeleteRanking(this);
+                };
                 var deleteIcon = document.createElement('i');
                 deleteIcon.className = 'bx bx-x';
                 deleteLink.appendChild(deleteIcon);
@@ -661,7 +664,7 @@ function DeleteRanking(element) {
 
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'deleteStudent.php?studentId=' + studentId, true);
-    xhr.onload = function() {
+    xhr.onload = function () {
         if (this.status == 200) {
             if (this.responseText == 'success') {
                 element.parentElement.parentElement.remove();
@@ -673,12 +676,28 @@ function DeleteRanking(element) {
     xhr.send();
 }
 
+function validwish(element) {
+    var studentId = element.parentElement.parentElement.querySelector('input').dataset.studentId;
+    var wishsheet = element.parentElement.parentElement.querySelector('input').dataset.wishsheet;
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'validwish.php', true);
+    xhr.onload = function () {
+        if (this.status === 200) {
+            if (this.responseText === 'success') {
+                console.log('Student added successfully');
+            } else {
+                console.error('Error adding student:', this.responseText);
+            }
+        }
+    };
+    xhr.send('studentId=' + encodeURIComponent(studentId));
+}
 
 function closePFE() {
     var xhr = new XMLHttpRequest();
     var button = document.querySelector('button[onclick="closePFE()"]');
     xhr.open("POST", "close_topic.php", true);
-    xhr.onreadystatechange = function() {
+    xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 alert(xhr.responseText);
