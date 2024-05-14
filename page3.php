@@ -14,7 +14,8 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Requête SQL pour sélectionner toutes les entrées de la table "topics"
-    $sql = "SELECT id, title, resume, speciality, state, professeur FROM topic";
+//    $sql = "SELECT id, title, resume, speciality, state, professeur FROM topic";
+    $sql = "SELECT * FROM topic";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     $topics = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -126,8 +127,11 @@ try {
 <div class="section-container">
   <section class="home-section" id="topics">
         <div class="text">List of topics : </div>
-        
-        <button  onclick="closePFE()">Close Topic</button>
+<!--      samer -->
+        <?php
+//        print_r($topics);
+        echo  $topics[0]["isClosed"]? '<button  onclick="closePFE()">Open Topics</button>': '<button  onclick="closePFE()">Close Topics</button>';
+        ?>
         <table id="topics" class="-table">
           
             <thead>
@@ -266,7 +270,7 @@ try {
                 <th>fourth_name</th>
                   <th>Full-name</th>
                   <th>Average</th>
-                  <th>Ranking</th>
+                  <th id="rankingLabel">Ranking</th>
                   <th>option</th>
               </tr>
           </thead>
@@ -279,13 +283,12 @@ try {
                     <td><?php echo $student['third_name']; ?></td>
                     <td><?php echo $student['fourth_name']; ?></td>
                       <td><?php echo $student['full_name']; ?></td>
-<!--                      <td>--><?php //echo $student['Average']; ?><!--</td>-->
 
                     <td>
-                      <input type="number" value="<?php echo $student['Average']; ?>" min="1" data-student-id="<?php echo $student['id']; ?>">
+                      <input type="number" value="<?php echo $student['Average']; ?>" min="1" data-student-id="<?php echo $student['id']; ?>" class="average-input">
                     </td>
                      <td>
-                        <input type="number" value="<?php echo $student['Ranking']; ?>" min="1" data-student-id="<?php echo $student['id']; ?>">
+                       <input type="number" value="<?php echo $student['Ranking']; ?>" min="1" data-student-id="<?php echo $student['id']; ?>" class="ranking-input">
                     </td>
                       <td>
     <a href="#" class="delete-ranking" onclick="DeleteRanking(this)"><i class='bx bx-x'></i></a>

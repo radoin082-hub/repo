@@ -1,5 +1,6 @@
 let wishList = [];
 function addToWishList(element) {
+
   const row = element.closest("tr");
   const theme = row.querySelector("td:nth-child(2)").textContent;
   const professor = row.querySelector("td:nth-child(5)").textContent;
@@ -52,6 +53,34 @@ function deleteFromWishList(element) {
 }
 
 
+/*
+function deleteFromWishList(element) {
+  const row = element.closest("tr");
+  const theme = row.querySelector("td:nth-child(1)").textContent;
+  const professor = row.querySelector("td:nth-child(2)").textContent;
+  const description = row.querySelector("td:nth-child(3)").textContent;
+
+  // Find the item in the wishList array
+  const index = wishList.findIndex(item => item.theme === theme && item.professor === professor && item.description === description);
+
+  // If the item was found
+  if (index !== -1) {
+    // Remove the item from the wishList array
+    wishList.splice(index, 1);
+
+    // Update the wishList in local storage
+    localStorage.setItem('wishList', JSON.stringify(wishList));
+
+    // Delete the item from the database
+    deleteFromDatabase(theme, professor, description);
+
+    // Repopulate the wish list table
+    populateWishListTable();
+  }
+}
+
+*/
+
 function saveWishItemToDatabase(item) {
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "includes/save_wish_item.php", true);
@@ -103,7 +132,6 @@ function populateWishListTable() {
     tableBody.appendChild(row);
   });
 }
-
 
 function deleteFromDatabase(theme, professor, description) {
   var xhr = new XMLHttpRequest();

@@ -1,38 +1,8 @@
 <?php
-/*$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "project";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    $sql = "UPDATE topic SET isClosed = TRUE";
-    $stmt = $conn->prepare($sql);
-
-    if (!$stmt) {
-        die("Error: " . $conn->error);
-    }
-
-    if ($stmt->execute() === TRUE) {
-        echo "All topics closed successfully";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-    }
-
-    $stmt->close();
-    $conn->close();
-} else {
-    echo "No data received.";
-}
-*/?>
-
-<?php
+//
+// => Samer
+//
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -53,6 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $isClosed = $row['isClosed'];
 
     // Toggle the state of the topics
+
     $newState = $isClosed ? "FALSE" : "TRUE";
     $sql = "UPDATE topic SET isClosed = $newState";
     $stmt = $conn->prepare($sql);

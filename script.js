@@ -439,23 +439,68 @@ function validateOption(button) {
 
 
 
+/*
 function validateAllRankings() {
-    var rankingInputs = document.querySelectorAll('#ranking tbody input[type="number"]');
-    
-    // Placeholder array to store rankings data
+    console.log("validateAllRankings function called");
+    // var rankingInputs = document.querySelectorAll('#ranking tbody input[type="number"]');
+    var rankingInputs = document.querySelectorAll('#ranking tbody .ranking-input');
+    var averageInputs = document.querySelector('#ranking tbody .average-input')
+    //  samer
+    var rankingValues = [];
+    var averageValues = [];
+
     var rankingsData = [];
+    var averageData = [];
 
     // Parcourir tous les inputs de classement
     rankingInputs.forEach(function(input) {
         var studentId = input.closest('tr').querySelector('td:first-child').innerText;
         var newRanking = input.value;
+
+        rankingValues.push(newRanking);
+
+        // samer
+        if (isNaN(newRanking) || newRanking < 1 || newRanking > rankingInputs.length) {
+            console.error("Invalid ranking:", newRanking);
+            return; // Skip this input
+        }
+
+        // console.log("Student ID:", studentId, "New Ranking:", newRanking);
+
         // Ajouter les données du classement à l'array rankingsData
         rankingsData.push({ "student_id": studentId, "new_ranking": newRanking });
+        console.log(rankingsData);
         
         // Mettre à jour la cellule de classement dans la table HTML
         var rankingCell = input.closest('tr').querySelector('td:nth-child(5)');
         rankingCell.innerText = newRanking; // Mettre à jour le texte avec le nouveau classement
     });
+
+    averageInputs.forEach(function(input) {
+        var studentId = input.closest('tr').querySelector('td:first-child').innerText;
+        var newAverage = input.value;
+
+        averageValues.push(newAverage);
+
+        // samer
+        if (isNaN(newAverage) || newAverage < 1 || newAverage > averageInputs.length) {
+            console.error("Invalid average:", newAverage);
+            return; // Skip this input
+        }
+
+        averageData.push({ "student_id": studentId, "new_average": newAverage });
+        console.log(averageData);
+
+        var averageCell = input.closest('tr').querySelector('td:nth-child(4)');
+        averageCell.innerText = newAverage;
+    });
+
+// samer
+    // Calculate the minimum and maximum ranking values
+    var minRanking = Math.min(...rankingValues);
+    var maxRanking = Math.max(...rankingValues);
+    var rankingLabel = document.querySelector('#rankingLabel'); // Replace '#rankingLabel' with the actual selector for your "Ranking" label
+    rankingLabel.textContent += ` (${minRanking} - ${maxRanking})`;
 
     // Afficher un message de confirmation avec une boîte de dialogue modale
     var modal = document.createElement("div");
@@ -467,7 +512,8 @@ function validateAllRankings() {
     setTimeout(function() {
         document.body.removeChild(modal);
     }, 3000); // Supprime la boîte de dialogue après 3 secondes
-    
+
+    console.log(JSON.stringify(rankingsData));
     // Envoyer les données à la page PHP via une requête POST AJAX
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "update_ranking.php", true);
@@ -476,10 +522,90 @@ function validateAllRankings() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             // Afficher la réponse de la page PHP dans la console
             console.log(xhr.responseText);
+        }else if (xhr.readyState === 4 && xhr.status === 400) {
+            // Handle the 400 status code specifically
+            console.error('The student ID does not exist in the database.');
+        } else {
+            // If the status is not 200 or 400, throw an error
+            throw new Error('Error with status code ' + xhr.status);
         }
     };
     xhr.send(JSON.stringify(rankingsData));
 }
+
+*/
+
+function validateAllRankings() {
+    console.log("validateAllRankings function called");
+    var rankingInputs = document.querySelectorAll('#ranking tbody .ranking-input');
+    var averageInputs = document.querySelectorAll('#ranking tbody .average-input');
+
+    var rankingValues = [];
+    var averageValues = [];
+
+    var studentData = []; // This will hold both ranking and average data
+
+    // Parcourir tous les inputs de classement
+    rankingInputs.forEach(function (input, index) {
+        var studentId = input.closest('tr').querySelector('td:first-child').innerText;
+        var newRanking = input.value;
+        var newAverage = averageInputs[index].value; // Get the corresponding average value
+
+        rankingValues.push(newRanking);
+        averageValues.push(newAverage);
+
+        if (isNaN(newRanking) || newRanking < 1 || newRanking > rankingInputs.length) {
+            console.error("Invalid ranking:", newRanking);
+            return; // Skip this input
+        }
+
+        if (isNaN(newAverage) || newAverage < 1 || newAverage >20) {
+            console.error("Invalid average:", newAverage);
+            return; // Skip this input
+        }
+
+        // Add the ranking and average data to the studentData array
+        studentData.push({ "student_id": studentId, "new_ranking": newRanking, "new_average": newAverage });
+
+        var rankingCell = input.closest('tr').querySelector('td:nth-child(5)');
+        rankingCell.innerText = newRanking;
+
+        var averageCell = input.closest('tr').querySelector('td:nth-child(4)');
+        averageCell.innerText = newAverage;
+    });
+
+    var minRanking = Math.min(...rankingValues);
+    var maxRanking = Math.max(...rankingValues);
+    var rankingLabel = document.querySelector('#rankingLabel');
+    rankingLabel.textContent += ` (${minRanking} - ${maxRanking})`;
+
+    var modal = document.createElement("div");
+    modal.classList.add("modal");
+    modal.innerHTML = "<div class='modal-content'>All rankings validated successfully!</div>";
+    document.body.appendChild(modal);
+
+    setTimeout(function () {
+        document.body.removeChild(modal);
+    }, 3000);
+
+    console.log(JSON.stringify(studentData));
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "update_ranking.php", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log(xhr.responseText);
+        } else if (xhr.readyState === 4 && xhr.status === 400 ) {
+            console.error('The student ID does not exist in the database.');
+        } else if (xhr.status !== 200) {
+            throw new Error('Error with status code ' + xhr.status);
+        }
+    };
+    xhr.send(JSON.stringify(studentData)); // Send the combined student data
+}
+
+
 // Fonction pour supprimer un classement
 /*function DeleteRanking(element) {
     // Demander une confirmation à l'utilisateur avant de supprimer
@@ -576,9 +702,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-
-
-
+// samer
 function sortAverage(sortOrder) {
 
     var xhr = new XMLHttpRequest();
@@ -657,6 +781,7 @@ function sortAverage(sortOrder) {
 }
 
 function DeleteRanking(element) {
+
     var studentId = element.parentElement.parentElement.querySelector('input').dataset.studentId;
 
     var xhr = new XMLHttpRequest();

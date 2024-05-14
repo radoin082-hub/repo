@@ -110,11 +110,9 @@ if (!$topics) {
             <td><?php echo $topic['professeur']; ?></td>
             <td>
               <?php
-              if(! $topic['isClosed'])
-                echo '<a href="#" onclick="addToWishList(this)" class="validate-link"><i class=\'bx bx-check\'></i></a>';
-              else
-                echo '<a href="#" onclick="addToWishList(this)" class="validate-link" style="display: none;"><i class=\'bx bx-check\'></i></a>';
-//            echo '<a href="#" onclick="addToWishList(this)"><i class=\'bx bx-plus\'></i></a></td>'
+               /* echo '<a href="#" onclick="addToWishList(this)" class="validate-link" style="display: none;"><i class=\'bx bx-check\'></i></a>';*/
+              $displayed = $topic['isClosed']?'style="display: none;' : ' ' ;
+              echo '<a href="#" onclick="addToWishList(this)" class="validate-link" ' . $displayed .'"><i class=\'bx bx-check\'></i></a>';
 ?>
             </td>
         </tr>
@@ -126,6 +124,7 @@ if (!$topics) {
     <table class="-table">
         <thead>
           <tr>
+<!--            <th>Id</th>-->
             <th>TITLE</th>
             <th>Description</th>
             <th>Professor</th>
@@ -136,6 +135,7 @@ if (!$topics) {
         <tbody id="wishListTable">
             <?php foreach ($whishsheet as $w): ?>
             <tr>
+<!--                <td>--><?php //echo $w['id']; ?><!--</td>-->
                 <td><?php echo $w['theme']; ?></td>
                 <td><?php echo $w['description']; ?></td>
                 <td><?php echo $w['professor']; ?></td>
