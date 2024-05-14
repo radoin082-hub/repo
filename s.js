@@ -206,11 +206,17 @@ document.getElementById("addTopicForm").addEventListener("submit", function(even
 function addTopic() {
 
     // Check if all topics are closed
-    var allTopicsClosed = topics.every(function(topic) {
-      return topic.isClosed;
-    });
 
-    if (allTopicsClosed) {
+  fetch('isClosed.php')
+    .then(response => response.json())
+    .then(topics => {
+      var allTopicsClosed = topics.every(function(topic) {
+        return topic.isClosed;
+      });
+      console.log(allTopicsClosed);
+
+   if (allTopicsClosed) {
+      console.log(allTopicsClosed);
       alert("All topics are closed. You cannot add a new subject.");
     } else {
       var title = prompt("Enter the title of the topic:");
@@ -276,6 +282,8 @@ function addTopic() {
         alert("Title information is required.");
       }
     }
+    });
+
 }
 
 
