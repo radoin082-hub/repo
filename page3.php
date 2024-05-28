@@ -38,13 +38,28 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Requête SQL pour sélectionner toutes les entrées de la table "etudiantL3"
-    $sql = "SELECT * FROM users inner join assamentstudent on  assamentstudent.studentid = users.id  ";
+//    $sql = "SELECT * FROM users inner join assamentstudent on  assamentstudent.studentid = users.id  ";
+    $sql = "SELECT users.* , topic.id as topic_id , topic.title as topic_title , wishsheet.id as wishsheet_id FROM users inner join wishsheet on  wishsheet.email = users.email  inner join topic on wishsheet.theme = topic.title   ";
 
+
+
+//
 
     $stmt = $conn->prepare($sql);
     $stmt->execute();
-    $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
-     /*print_r($students);*/
+    $students = $stmt->fetchAll();
+
+/*    echo '<pre>';
+    print_r($students);
+    echo '</pre>';*/
+
+      /* $sql_topicid = "select id from topic inner join wishsheet on wishsheet.theme = topic.title";
+
+    $stmt_topic = $conn->prepare($sql_topicid);
+    $stmt_topic->execute();
+    $topics = $stmt_topic->fetch();*/
+
+
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
@@ -285,22 +300,33 @@ try {
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($students as $student): ?>
+            <?php
+/*            echo '<pre>';
+            print_r($students);
+            echo '</pre>';*/
+
+//            echo '<pre>';
+//            print_r($wishsheets);
+//            echo '</pre>';
+            foreach ($students as $student): ?>
                 <tr>
-                    <td><?php echo $student['id']; ?></td>
+                    <td class="theme"><?php echo $student['topic_title']; ?></td>
                     <td><?php echo $student['first_name']; ?></td>
                     <td><?php echo $student['second_name']; ?></td>
                     <td><?php echo $student['third_name']; ?></td>
                     <td><?php echo $student['fourth_name']; ?></td>
                     <td><?php echo $student['full_name']; ?></td>
 
+                  <td style="display: none" class="student-email"><?php echo $student['email']; ?></td>
+                  <td style="display:none" class="theme-id"><?php echo $student['topic_id']; ?></td>
+                  <td style="display:none" class="wishid"><?php echo $student['wishsheet_id']; ?></td>
                     <td>
                         <input type="number" value="<?php echo $student['Average']; ?>" min="1"
                                data-student-id="<?php echo $student['id']; ?>" class="average-input">
                     </td>
                     <td>
                         <input type="number" value="<?php echo $student['Ranking']; ?>" min="1"
-                               data-student-id="<?php echo $student['id']; ?>" class="ranking-input">
+                               data-student-id="<?php echo $student['0']; ?>" class="ranking-input">
                     </td>
                     <td>
                         <a href="#" class="delete-ranking" onclick="DeleteRanking(this)"><i class='bx bx-x bx-tada' ></i></a>

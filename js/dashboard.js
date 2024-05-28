@@ -3,27 +3,41 @@ let wishList = [];
 function addToWishList(element) {
 
     const row = element.closest("tr");
-    const topicid = row.querySelector("td:nth-child(1)").textContent;
-    const studentid = row.querySelector("td[style='display:none']").textContent;
-   /* console.log(wishsheetid);*/
-    /*  const theme = row.querySelector("td:nth-child(2)").textContent;
-      const professor = row.querySelector("td:nth-child(5)").textContent;
-      const description = row.querySelector("td:nth-child(3)").textContent;*/
+    const theme = row.querySelector("td:nth-child(2)").textContent;
+    const professor = row.querySelector("td:nth-child(5)").textContent;
+    const description = row.querySelector("td:nth-child(3)").textContent;
 
     const item = {
-        topicid,
-        studentid
-
+        theme,
+        professor,
+        description,
     };
 
     wishList.push(item);
     localStorage.setItem('wishList', JSON.stringify(wishList));
     console.log(wishList);
-   /* saveWishItemToDatabase(item);*/
+    saveWishItemToDatabase(item);
 
     alert("Item added to Wish sheet");
     populateWishListTable();
 }
+
+function saveWishItemToDatabase(item) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "includes/save_wish_item.php", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                console.log("Wish item saved successfully.");
+            } else {
+                console.error("Error saving wish item.");
+            }
+        }
+    };
+    xhr.send(JSON.stringify(item));
+}
+
 
 function deleteFromWishList(element) {
     /*console.log(wishList);*/
@@ -85,45 +99,6 @@ function deleteFromWishList(element) {
 
 */
 
-function saveWishItemToDatabase(element) {
-    /*const row = element.closest("tr");
-/!*    const row = document.getElementById("wishListTable").rows[0];*!/
-    console.log(row);
-    const wishsheetid = row.querySelector("td:nth-child(1)").textContent;
-
-    item.wishsheetid = wishsheetid;
-    console.log(item);*/
-    const row = element.closest("tr");
-    const wishsheetid = row.querySelector("td:nth-child(1)").textContent;
-    const studentid = row.querySelector("td[style='display:none']").textContent;
-
-    const item = {
-        wishsheetid,
-        studentid
-
-    };
-
-
-    wishList.push(item);
-    //////////////////////////
-    var xhr = new XMLHttpRequest();
-    /*  console.log(xhr);*/
-    xhr.open("POST", "save_wish_item2.php", true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            console.log(xhr.responseText);
-            if (xhr.status === 200) {
-
-                console.log(" item saved successfully.");
-            } else {
-                console.error("Error saving wish item.");
-            }
-        }
-    };
-    xhr.send(JSON.stringify(item));
-}
 
 function populateWishListTable() {
     const tableBody = document.getElementById("wishListTable");

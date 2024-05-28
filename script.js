@@ -677,21 +677,60 @@ function DeleteRanking(element) {
 }
 
 function validwish(element) {
-    var studentId = element.parentElement.parentElement.querySelector('input').dataset.studentId;
-    var wishsheet = element.parentElement.parentElement.querySelector('input').dataset.wishsheet;
+
+    var student_email = element.parentElement.parentElement.querySelector('.student-email').textContent;
+    var theme_id = element.parentElement.parentElement.querySelector('.theme-id').textContent;
+
+    var theme = element.parentElement.parentElement.querySelector('.theme').textContent;
+
+
+
+    console.log(student_email);
+    console.log(theme_id);
     var xhr = new XMLHttpRequest();
+
     xhr.open('POST', 'validwish.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
     xhr.onload = function () {
-        if (this.status === 200) {
+        console.log(xhr.responseText);
+        if (this.status == 200) {
+            console.log(this.responseText);
+
+            const item = {
+                theme,
+                theme_id
+            };
+
+            deleteFromDatabasewishsheet(item);
             if (this.responseText === 'success') {
                 console.log('Student added successfully');
-            } else {
-                console.error('Error adding student:', this.responseText);
+                console.log('wishsheet added successfully');
+
+
             }
         }
     };
-    xhr.send('studentId=' + encodeURIComponent(studentId));
+    xhr.send('student_email=' + encodeURIComponent(student_email) + '&theme_id=' + encodeURIComponent(theme_id) + '&theme=' + encodeURIComponent(theme));
 }
+ function deleteFromDatabasewishsheet(item) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'delete_wish_item2.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                console.log('Wish item deleted from database');
+
+            } else {
+                console.error('Error deleting wish item from database');
+            }
+        }
+    };
+    xhr.send(JSON.stringify(item));
+
+}
+
 
 function closePFE() {
     var xhr = new XMLHttpRequest();

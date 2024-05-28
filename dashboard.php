@@ -20,6 +20,20 @@ $topics = mysqli_fetch_all($result, MYSQLI_ASSOC);
 $user_email = $_SESSION['email'];
 $sql_wishsheet = "SELECT * FROM wishsheet WHERE email = '$user_email'";
 $sql_id = "SELECT id FROM users WHERE email = '$user_email'";
+
+$sql_assets = "select assamentstudent.*, topic. *  from assamentstudent inner join topic on assamentstudent.title_id = topic.id ";
+
+$result_assts = mysqli_query($conn, $sql_assets);
+
+if ($result_assts === false) {
+    die('SQL Error: ' . mysqli_error($conn));
+}
+$asstes = mysqli_fetch_all($result_assts);
+
+/*echo "<pre>";
+print_r($asstes);
+echo "</pre>";*/
+
 $result_wishsheet = mysqli_query($conn, $sql_wishsheet);
 $whishsheet = mysqli_fetch_all($result_wishsheet, MYSQLI_ASSOC);
 $result_id = mysqli_query($conn, $sql_id);
@@ -145,6 +159,18 @@ if (!$topics) {
             <th>STATE</th>
         </tr>
         </thead>
+      <tbody id="wishListTable">
+      <?php foreach ($asstes as $w): ?>
+        <tr>
+          <td><?php echo $w['2']; ?></td>
+          <td><?php echo $w['4']; ?></td>
+          <td><?php echo $w['6']; ?></td>
+          <td><?php echo $w['8']; ?></td>
+          <td><?php echo $w['7']; ?></td>
+
+        </tr>
+      <?php endforeach; ?>
+      </tbody>
     </table>
 
 </section>
@@ -166,7 +192,12 @@ if (!$topics) {
         </tr>
         </thead>
         <tbody id="wishListTable">
-        <?php foreach ($whishsheet as $w): ?>
+
+        <?php
+        echo "<pre>";
+   /*     print_r($whishsheet);*/
+        echo "</pre>";
+        foreach ($whishsheet as $w): ?>
             <tr>
                 <td><?php echo $w['id']; ?></td>
                 <td><?php echo $w['theme']; ?></td>
@@ -176,17 +207,12 @@ if (!$topics) {
                 <td>
                     <a href="#" onclick="deleteFromWishList(this)"><i class='bx bx-x'></i></a>
                 </td>
-                <td>
-                    <?php
-                    /* $displayed = $topic['isClosed'] ? 'style="display: none;' : ' ';*/
-                    echo '<a href="#" onclick="saveWishItemToDatabase(this)" class="validate-link" ><i class=\'bx bx-check\'></i></a>';
-                    ?>
-                </td>
             </tr>
         <?php endforeach; ?>
         </tbody>
     </table>
 </section>
+
 <div id="searchModal" class="search-modal" style="display: none;">
     <div class="search-box">
         <input type="text" id="searchInput" placeholder="Enter search keyword...">
